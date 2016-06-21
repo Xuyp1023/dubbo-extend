@@ -1,0 +1,3 @@
+userComsumer=com.betterjr.dubbo.extend.filter.user.UserComsumerFilter
+userProvider=com.betterjr.dubbo.extend.filter.user.UserProviderFilter
+paraCheckByRule=com.betterjr.dubbo.extend.filter.paracheck.ParaCheckByRuleFilter
