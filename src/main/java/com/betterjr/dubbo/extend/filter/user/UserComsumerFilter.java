@@ -14,6 +14,7 @@ import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
 
+
 @Activate(group={Constants.CONSUMER})
 public class UserComsumerFilter implements Filter{
 	Logger logger=LoggerFactory.getLogger(UserComsumerFilter.class);
