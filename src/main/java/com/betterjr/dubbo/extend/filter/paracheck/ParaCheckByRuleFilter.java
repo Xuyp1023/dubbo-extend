@@ -1,7 +1,5 @@
 package com.betterjr.dubbo.extend.filter.paracheck;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.extension.Activate;
 import com.alibaba.dubbo.common.logger.Logger;
