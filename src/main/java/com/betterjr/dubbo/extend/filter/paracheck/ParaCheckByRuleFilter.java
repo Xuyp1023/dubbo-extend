@@ -40,9 +40,13 @@ public class ParaCheckByRuleFilter implements Filter{
 			Result re= this.ruleServiceDubboFilterInvoker.doAround(invoker, invocation);
 			
 			return re;
-		}catch(Throwable e){
-			e.printStackTrace();
-			throw new RpcException(invocation.getMethodName()+"'s input parameters are valid.",e);
+		}catch(RpcException ex){
+			logger.error(ex.getMessage(),ex);
+			throw ex;
+		}
+		catch(Throwable e){
+			logger.error(e.getMessage(),e);
+			throw new RpcException(RpcException.BIZ_EXCEPTION,invocation.getMethodName()+"'s input parameters are invalid.",e);
 		}
 	}
 	
