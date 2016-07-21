@@ -20,22 +20,25 @@ public class UserComsumerFilter implements Filter {
 
 	public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
 		// TODO Auto-generated method stub
-		try {
-			logger.debug("UserComsumerFilter test :" + invocation.toString());
-			logger.debug("UserComsumerFilter test :" + invoker.getUrl());
-			Session session = UserUtils.getSession();
-			if (session != null) {
-				String sessionid = (String) session.getId();
-				logger.debug("UserComsumerFilter test :sessionid=" + sessionid);
-				invocation.getAttachments().put(FilterConstants.FilterAttachmentSessionId, sessionid);
-				logger.debug("UserComsumerFilter test :" + invocation.toString());
-				logger.debug("UserComsumerFilter test invoker interface:" + invoker.getInterface().getName());
-			}
-
-		} catch (Exception ex) {
-			logger.error(ex.getLocalizedMessage(), ex);
-			throw new RpcException(RpcException.BIZ_EXCEPTION,"no session id checked in "+this.getClass(),ex);
-		}
+	    String method=invocation.getMethodName();
+	    if(!method.startsWith(FilterConstants.filterUserFilterMethodPrefix)){
+    		try {
+    			logger.debug("UserComsumerFilter test :" + invocation.toString());
+    			logger.debug("UserComsumerFilter test :" + invoker.getUrl());
+    			Session session = UserUtils.getSession();
+    			if (session != null) {
+    				String sessionid = (String) session.getId();
+    				logger.debug("UserComsumerFilter test :sessionid=" + sessionid);
+    				invocation.getAttachments().put(FilterConstants.FilterAttachmentSessionId, sessionid);
+    				logger.debug("UserComsumerFilter test :" + invocation.toString());
+    				logger.debug("UserComsumerFilter test invoker interface:" + invoker.getInterface().getName());
+    			}
+    
+    		} catch (Exception ex) {
+    			logger.error(ex.getLocalizedMessage(), ex);
+    			throw new RpcException(RpcException.BIZ_EXCEPTION,"no session id checked in "+this.getClass(),ex);
+    		}
+	    }
 		return invoker.invoke(invocation);
 	}
 
