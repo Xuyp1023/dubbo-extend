@@ -46,7 +46,7 @@ public class ParaCheckByRuleFilter implements Filter{
 		}
 		catch(Throwable e){
 			logger.error(e.getMessage(),e);
-			throw new RpcException(RpcException.BIZ_EXCEPTION,invocation.getMethodName()+"'s input parameters are invalid.",e);
+			throw new RpcException(e.getMessage(),e);
 		}
 	}
 	
