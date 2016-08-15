@@ -11,7 +11,7 @@ import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.betterjr.common.utils.UserUtils;
 
-@Activate(group = { Constants.PROVIDER })
+@Activate(group = { Constants.PROVIDER },order = 40000)
 public class UserProviderFilter implements Filter {
     Logger logger = LoggerFactory.getLogger(UserProviderFilter.class);
 

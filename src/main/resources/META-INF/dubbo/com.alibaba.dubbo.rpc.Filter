@@ -1,3 +1,4 @@
 userComsumer=com.betterjr.dubbo.extend.filter.user.UserComsumerFilter
 userProvider=com.betterjr.dubbo.extend.filter.user.UserProviderFilter
 paraCheckByRule=com.betterjr.dubbo.extend.filter.paracheck.ParaCheckByRuleFilter
+throwBytterException=com.betterjr.dubbo.extend.filter.execption.ThrowBytterExceptionFilter

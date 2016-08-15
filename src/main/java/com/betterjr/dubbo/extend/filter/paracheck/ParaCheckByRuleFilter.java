@@ -14,11 +14,12 @@ import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
+import com.betterjr.common.exception.BytterException;
 import com.betterjr.common.utils.StaticThreadLocal;
 import com.betterjr.dubbo.extend.filter.user.UserComsumerFilter;
 import com.betterjr.modules.rule.service.RuleServiceDubboFilterInvoker;
 
-@Activate(group={Constants.PROVIDER})
+@Activate(group={Constants.PROVIDER},order = 40000)
 public class ParaCheckByRuleFilter implements Filter{
 	Logger logger=LoggerFactory.getLogger(UserComsumerFilter.class);
 
@@ -40,7 +41,11 @@ public class ParaCheckByRuleFilter implements Filter{
 			Result re= this.ruleServiceDubboFilterInvoker.doAround(invoker, invocation);
 			
 			return re;
-		}catch(RpcException ex){
+		}catch(BytterException byEx){
+		    logger.error(byEx.getMessage(),byEx);
+		    throw byEx;
+		}
+		catch(RpcException ex){
 			logger.error(ex.getMessage(),ex);
 			throw ex;
 		}
