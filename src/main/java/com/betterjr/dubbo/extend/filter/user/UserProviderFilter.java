@@ -17,6 +17,7 @@ public class UserProviderFilter implements Filter {
 
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         // TODO Auto-generated method stub
+        UserUtils.clearThreadLocal();
         String method = invocation.getMethodName();
         if (!method.startsWith(FilterConstants.filterUserFilterMethodPrefix)) {
             try {
