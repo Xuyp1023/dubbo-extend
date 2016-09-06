@@ -32,6 +32,8 @@ public class ParaCheckByRuleFilter implements Filter{
 	public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
 		// TODO Auto-generated method stub
 		try{
+		    StaticThreadLocal.clearThreadLocal();
+		    RuleServiceDubboFilterInvoker.clearThreadLocal();
 			//将入参写入缓存
 			this.initMethodPara(invoker, invocation);
 			
