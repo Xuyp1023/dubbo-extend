@@ -16,12 +16,12 @@ import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.betterjr.common.exception.BytterException;
 import com.betterjr.common.utils.StaticThreadLocal;
-import com.betterjr.dubbo.extend.filter.user.UserComsumerFilter;
+import com.betterjr.dubbo.extend.filter.user.UserConsumerFilter;
 import com.betterjr.modules.rule.service.RuleServiceDubboFilterInvoker;
 
 @Activate(group={Constants.PROVIDER},order = 40000)
 public class ParaCheckByRuleFilter implements Filter{
-	Logger logger=LoggerFactory.getLogger(UserComsumerFilter.class);
+	Logger logger=LoggerFactory.getLogger(UserConsumerFilter.class);
 
 	private RuleServiceDubboFilterInvoker ruleServiceDubboFilterInvoker;
 
