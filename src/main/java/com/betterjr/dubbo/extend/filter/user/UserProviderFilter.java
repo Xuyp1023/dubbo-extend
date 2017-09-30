@@ -11,27 +11,27 @@ import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.betterjr.common.utils.UserUtils;
 
-@Activate(group = { Constants.PROVIDER },order = 40000)
+@Activate(group = { Constants.PROVIDER }, order = 40000)
 public class UserProviderFilter implements Filter {
     Logger logger = LoggerFactory.getLogger(UserProviderFilter.class);
 
-    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        // TODO Auto-generated method stub
+    @Override
+    public Result invoke(final Invoker<?> invoker, final Invocation invocation) throws RpcException {
         UserUtils.clearThreadLocal();
-        String method = invocation.getMethodName();
+        final String method = invocation.getMethodName();
         if (!method.startsWith(FilterConstants.filterUserFilterMethodPrefix)) {
             try {
                 logger.debug("UserProviderFilter test :" + invocation.toString());
                 logger.debug("UserProviderFilter test :" + invoker.getUrl());
-                String sessionId = invocation.getAttachment(FilterConstants.FilterAttachmentSessionId);
+                final String sessionId = invocation.getAttachment(FilterConstants.FilterAttachmentSessionId);
                 if (sessionId != null) {
                     logger.debug("UserProviderFilter test :sessionid=" + sessionId);
                     logger.debug("UserProviderFilter test :invoker interface=" + invoker.getInterface().getName());
                     UserUtils.storeSessionId(sessionId);
                 }
-
+                UserUtils.storeRequestIp(invocation.getAttachment(FilterConstants.FilterAttachmentRequestAddress));
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 logger.error(ex.getLocalizedMessage(), ex);
                 throw new RpcException(RpcException.BIZ_EXCEPTION, "no sessiondId checked in " + this.getClass(), ex);
             }
