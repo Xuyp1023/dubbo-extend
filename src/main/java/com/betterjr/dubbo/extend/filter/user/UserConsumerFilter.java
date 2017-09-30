@@ -15,29 +15,30 @@ import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.betterjr.common.annotation.NoSession;
 import com.betterjr.common.utils.UserUtils;
+import com.betterjr.common.web.Servlets;
 
-@Activate(group = { Constants.CONSUMER },order = 40000)
+@Activate(group = { Constants.CONSUMER }, order = 40000)
 public class UserConsumerFilter implements Filter {
     Logger logger = LoggerFactory.getLogger(UserConsumerFilter.class);
 
     @Override
     public Result invoke(final Invoker<?> invoker, final Invocation invocation) throws RpcException {
         // TODO Auto-generated method stub
-        final String method=invocation.getMethodName();
+        final String method = invocation.getMethodName();
 
-        if(!method.startsWith(FilterConstants.filterUserFilterMethodPrefix)){
-            boolean noSession=false;
+        if (!method.startsWith(FilterConstants.filterUserFilterMethodPrefix)) {
+            boolean noSession = false;
             try {
-                final Method me=invoker.getInterface().getMethod(method, invocation.getParameterTypes());
-                if(me.isAnnotationPresent(NoSession.class)){
-                    noSession=true;
+                final Method me = invoker.getInterface().getMethod(method, invocation.getParameterTypes());
+                if (me.isAnnotationPresent(NoSession.class)) {
+                    noSession = true;
                 }
             }
             catch (final Exception e) {
                 logger.error(e.getMessage(), e);
             }
 
-            if(!noSession){
+            if (!noSession) {
                 try {
                     logger.debug("UserConsumerFilter test :" + invocation.toString());
                     logger.debug("UserConsumerFilter test :" + invoker.getUrl());
@@ -46,13 +47,16 @@ public class UserConsumerFilter implements Filter {
                         final String sessionid = (String) session.getId();
                         logger.debug("UserConsumerFilter test :sessionid=" + sessionid);
                         invocation.getAttachments().put(FilterConstants.FilterAttachmentSessionId, sessionid);
+                        invocation.getAttachments().put(FilterConstants.FilterAttachmentRequestAddress, Servlets.getRemoteAddr());
+
                         logger.debug("UserConsumerFilter test :" + invocation.toString());
                         logger.debug("UserConsumerFilter test invoker interface:" + invoker.getInterface().getName());
                     }
 
-                } catch (final Exception ex) {
+                }
+                catch (final Exception ex) {
                     logger.error(ex.getLocalizedMessage(), ex);
-                    throw new RpcException(RpcException.BIZ_EXCEPTION,"no session id checked in "+this.getClass(),ex);
+                    throw new RpcException(RpcException.BIZ_EXCEPTION, "no session id checked in " + this.getClass(), ex);
                 }
             }
         }
