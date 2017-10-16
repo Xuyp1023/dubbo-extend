@@ -47,7 +47,8 @@ public class UserConsumerFilter implements Filter {
                         final String sessionid = (String) session.getId();
                         logger.debug("UserConsumerFilter test :sessionid=" + sessionid);
                         invocation.getAttachments().put(FilterConstants.FilterAttachmentSessionId, sessionid);
-                        invocation.getAttachments().put(FilterConstants.FilterAttachmentRequestAddress, Servlets.getRemoteAddr());
+                        invocation.getAttachments().put(FilterConstants.FilterAttachmentRequestAddress,
+                                Servlets.getRemoteAddr());
 
                         logger.debug("UserConsumerFilter test :" + invocation.toString());
                         logger.debug("UserConsumerFilter test invoker interface:" + invoker.getInterface().getName());
@@ -56,7 +57,8 @@ public class UserConsumerFilter implements Filter {
                 }
                 catch (final Exception ex) {
                     logger.error(ex.getLocalizedMessage(), ex);
-                    throw new RpcException(RpcException.BIZ_EXCEPTION, "no session id checked in " + this.getClass(), ex);
+                    throw new RpcException(RpcException.BIZ_EXCEPTION, "no session id checked in " + this.getClass(),
+                            ex);
                 }
             }
         }
